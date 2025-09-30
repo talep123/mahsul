@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mahsul - Çiftçi ve Satıcıları Buluşturan Premium Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+        
+        * {
+            font-family: 'Inter', sans-serif;
+        }
+        
+        .floating-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .slide-in-left {
+            animation: slideInLeft 1s ease-out;
+        }
+        
+        .slide-in-right {
+            animation: slideInRight 1s ease-out;
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 1s ease-out;
+        }
+        
+        @keyframes slideInLeft {
+            from { transform: translateX(-100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes slideInRight {
+            from { transform: translateX(100px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        @keyframes fadeInUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        }
+        
+        .btn-premium {
+            background: linear-gradient(135deg, #10b981, #059669);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .btn-premium::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+        
+        .btn-premium:hover::before {
+            left: 100%;
+        }
+        
+        .btn-premium:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(16, 185, 129, 0.4);
+        }
+        
+        .form-glass {
+            backdrop-filter: blur(15px);
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .page-section {
+            display: none;
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        
+        .page-section.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .stats-counter {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #10b981;
+        }
+        
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #10b981;
+            white-space: nowrap;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #10b981; }
+        }
+        
+        .feature-icon {
+            transition: all 0.3s ease;
+        }
+        
+        .feature-card:hover .feature-icon {
+            transform: rotateY(360deg);
+        }
+        
+        .progress-bar {
+            width: 0%;
+            transition: width 2s ease-in-out;
+        }
+        
+        .modal-backdrop {
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.5);
+        }
+        
+        .success-checkmark {
+            animation: checkmark 0.6s ease-in-out;
+        }
+        
+        @keyframes checkmark {
+            0% { transform: scale(0) rotate(45deg); }
+            50% { transform: scale(1.2) rotate(45deg); }
+            100% { transform: scale(1) rotate(45deg); }
+        }
+        
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .testimonial-card {
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(255,255,255,0.05));
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, #10b981, #34d399);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+        
+        .form-field {
+            position: relative;
+        }
+        
+        .form-field input:focus + label,
+        .form-field input:not(:placeholder-shown) + label,
+        .form-field textarea:focus + label,
+        .form-field textarea:not(:placeholder-shown) + label {
+            transform: translateY(-25px) scale(0.8);
+            color: #10b981;
+        }
+        
+        .form-field label {
+            position: absolute;
+            left: 12px;
+            top: 12px;
+            transition: all 0.3s ease;
+            pointer-events: none;
+            color: #6b7280;
+        }
+        
+        .notification {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+        }
+
+        /* Desktop Navigation - Always Green Buttons */
+        .desktop-nav-btn {
+            background: #10b981;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 14px;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .desktop-nav-btn:hover {
+            background: #059669;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
+        }
+        
+        .desktop-nav-btn.active {
+            background: #047857;
+            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.5);
+        }
+
+        .whatsapp-float {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .guide-section {
+            display: none;
+        }
+        
+        .guide-section.active {
+            display: block;
+        }
+        
+        .guide-tab-btn {
+            background: transparent;
+            color: #6b7280;
+            border: none;
+            cursor: pointer;
+        }
+        
+        .guide-tab-btn.active {
+            background: #10b981;
+            color: white;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator"></div>
+    
+    <!-- WhatsApp Float Button -->
+    <div class="whatsapp-float">
+        <a href="https://wa.me/905536366983?text=Merhaba,%20Mahsul%20platformu%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="bg-green-500 hover:bg-green-600 text-white rounded-full w-16 h-16 flex items-center justify-center shadow-2xl transition-all duration-300 hover:scale-110">
+            <i class="fab fa-whatsapp text-2xl"></i>
+        </a>
+    </div>
+    
+    <!-- Navigation -->
+    <nav class="bg-white/90 backdrop-blur-md shadow-lg sticky top-0 z-50 border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center mr-4 shadow-lg">
+                            <i class="fas fa-seedling text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-3xl font-bold bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">Mahsul</span>
+                            <p class="text-xs text-gray-500 -mt-1">Premium Platform</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden lg:block">
+                    <div class="flex items-center space-x-3">
+                        <button onclick="showPage('home')" class="desktop-nav-btn active" id="nav-home">
+                            <i class="fas fa-home mr-2"></i>Ana Sayfa
+                        </button>
+                        <button onclick="showPage('about')" class="desktop-nav-btn" id="nav-about">
+                            <i class="fas fa-info-circle mr-2"></i>Hakkımızda
+                        </button>
+                        <button onclick="showPage('farmer-application')" class="desktop-nav-btn" id="nav-farmer-application">
+                            <i class="fas fa-tractor mr-2"></i>Çiftçi Başvuru
+                        </button>
+                        <button onclick="showPage('seller-application')" class="desktop-nav-btn" id="nav-seller-application">
+                            <i class="fas fa-store mr-2"></i>Satıcı Başvuru
+                        </button>
+                        <button onclick="showPage('contact')" class="desktop-nav-btn" id="nav-contact">
+                            <i class="fas fa-envelope mr-2"></i>İletişim
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Mobile Navigation -->
+                <div class="lg:hidden">
+                    <div class="flex items-center space-x-1">
+                        <button onclick="showPage('home')" class="desktop-nav-btn active text-xs px-2 py-2" id="mobile-nav-home">
+                            Ana Sayfa
+                        </button>
+                        <button onclick="showPage('about')" class="desktop-nav-btn text-xs px-2 py-2" id="mobile-nav-about">
+                            Hakkımızda
+                        </button>
+                        <button onclick="showPage('farmer-application')" class="desktop-nav-btn text-xs px-2 py-2" id="mobile-nav-farmer-application">
+                            Çiftçi
+                        </button>
+                        <button onclick="showPage('seller-application')" class="desktop-nav-btn text-xs px-2 py-2" id="mobile-nav-seller-application">
+                            Satıcı
+                        </button>
+                        <button onclick="showPage('contact')" class="desktop-nav-btn text-xs px-2 py-2" id="mobile-nav-contact">
+                            İletişim
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home Page -->
+    <div id="home" class="page-section active">
+        <!-- Hero Section -->
+        <section class="bg-white min-h-screen flex items-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-white"></div>
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 relative z-10">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="slide-in-left">
+                        <div class="mb-6">
+                            <span class="inline-block bg-green-100 text-green-700 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                                🌱 Türkiye'nin En Yenilikçi Tarım Platformu
+                            </span>
+                        </div>
+                        <h1 class="text-5xl md:text-7xl font-bold text-gray-900 mb-6 leading-tight">
+                            Çiftçi ve Satıcıyı<br>
+                            <span class="typewriter text-green-600">Doğrudan Buluşturan</span><br>
+                            <span class="bg-gradient-to-r from-green-600 to-green-700 bg-clip-text text-transparent">Premium Platform</span>
+                        </h1>
+                        <p class="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed font-medium">
+                            Aracıları ortadan kaldırarak çiftçilerimizin daha fazla kazanmasını, 
+                            satıcılarımızın daha ucuza kaliteli ürün almasını sağlıyoruz.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-6">
+                            <button onclick="showPage('farmer-application')" class="btn-premium text-white px-8 py-4 rounded-xl font-bold text-lg shadow-2xl">
+                                <i class="fas fa-tractor mr-2"></i>Çiftçi Olarak Başvur
+                            </button>
+                            <button onclick="showPage('seller-application')" class="bg-gray-100 text-gray-800 px-8 py-4 rounded-xl font-bold text-lg hover:bg-gray-200 transition-all duration-300 shadow-xl">
+                                <i class="fas fa-store mr-2"></i>Satıcı Olarak Başvur
+                            </button>
+                        </div>
+                        
+                        <!-- WhatsApp Support Button -->
+                        <div class="mt-8">
+                            <a href="https://wa.me/905536366983?text=Merhaba,%20Mahsul%20platformu%20hakkında%20bilgi%20almak%20istiyorum." target="_blank" rel="noopener noreferrer" class="inline-flex items-center bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-xl font-semibold text-lg shadow-xl transition-all duration-300 hover:scale-105">
+                                <i class="fab fa-whatsapp mr-2 text-xl"></i>Canlı Destek - WhatsApp
+                            </a>
+                        </div>
+                        
+                        <!-- Stats -->
+                        <div class="grid grid-cols-3 gap-6 mt-12">
+                            <div class="text-center">
+                                <div class="stats-counter" data-target="1500">0</div>
+                                <p class="text-gray-600 font-semibold">Aktif Çiftçi</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="stats-counter" data-target="850">0</div>
+                                <p class="text-gray-600 font-semibold">Kayıtlı Satıcı</p>
+                            </div>
+                            <div class="text-center">
+                                <div class="stats-counter" data-target="95">0</div>
+                                <p class="text-gray-600 font-semibold">Memnuniyet %</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-in-right">
+                        <div class="relative">
+                            <div class="floating-animation">
+                                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-3xl p-8 shadow-2xl border border-green-200">
+                                    <div class="grid grid-cols-2 gap-6">
+                                        <div class="bg-white rounded-2xl p-6 text-center shadow-lg">
+                                            <i class="fas fa-chart-line text-4xl text-green-600 mb-4"></i>
+                                            <h3 class="text-gray-900 font-bold text-lg">%40 Daha Fazla</h3>
+                                            <p class="text-gray-600 text-sm">Çiftçi Kazancı</p>
+                                        </div>
+                                        <div class="bg-white rounded-2xl p-6 text-center shadow-lg">
+                                            <i class="fas fa-coins text-4xl text-green-600 mb-4"></i>
+                                            <h3 class="text-gray-900 font-bold text-lg">%30 Daha Ucuz</h3>
+                                            <p class="text-gray-600 text-sm">Satıcı Maliyeti</p>
+                                        </div>
+                                        <div class="bg-white rounded-2xl p-6 text-center shadow-lg">
+                                            <i class="fas fa-leaf text-4xl text-green-600 mb-4"></i>
+                                            <h3 class="text-gray-900 font-bold text-lg">%100 Doğal</h3>
+                                            <p class="text-gray-600 text-sm">Kaliteli Ürün</p>
+                                        </div>
+                                        <div class="bg-white rounded-2xl p-6 text-center shadow-lg">
+                                            <i class="fas fa-handshake text-4xl text-green-600 mb-4"></i>
+                                            <h3 class="text-gray-900 font-bold text-lg">Güvenli</h3>
+                                            <p class="text-gray-600 text-sm">İşlem Garantisi</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Floating Elements -->
+            <div class="absolute top-20 left-10 w-20 h-20 bg-green-100 rounded-full floating-animation" style="animation-delay: -2s;"></div>
+            <div class="absolute bottom-20 right-10 w-16 h-16 bg-green-100 rounded-full floating-animation" style="animation-delay: -4s;"></div>
+            <div class="absolute top-1/2 right-20 w-12 h-12 bg-green-100 rounded-full floating-animation" style="animation-delay: -1s;"></div>
+        </section>
+
+        <!-- Features Section -->
+        <section class="py-24 bg-white relative overflow-hidden">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+                <div class="text-center mb-20 fade-in-up">
+                    <span class="inline-block bg-green-600 text-white px-6 py-3 rounded-full text-sm font-bold mb-6 shadow-lg">
+                        ✨ Özelliklerimiz
+                    </span>
+                    <h2 class="text-4xl md:text-5xl font-black text-gray-900 mb-6">Neden Mahsul?</h2>
+                    <p class="text-xl text-gray-800 max-w-3xl mx-auto leading-relaxed font-semibold">
+                        Herkesin kazandığı, sadece gereksiz aracıların kaybettiği devrimci bir sistem
+                    </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                    <div class="feature-card text-center p-10 rounded-3xl bg-white border-2 border-green-200 card-hover group shadow-xl">
+                        <div class="feature-icon w-20 h-20 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
+                            <i class="fas fa-tractor text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-gray-900 mb-4">Çiftçiler İçin</h3>
+                        <p class="text-gray-800 text-lg leading-relaxed mb-6 font-semibold">
+                            Ürününüzü doğrudan satıcılara satarak daha fazla kazanın. Aracı komisyonları ödemeden gerçek değerini alın.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-center text-green-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">%40 Daha Fazla Kazanç</span>
+                            </div>
+                            <div class="flex items-center justify-center text-green-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Doğrudan Satış</span>
+                            </div>
+                            <div class="flex items-center justify-center text-green-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Hızlı Ödeme</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card text-center p-10 rounded-3xl bg-white border-2 border-blue-200 card-hover group shadow-xl">
+                        <div class="feature-icon w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
+                            <i class="fas fa-store text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-gray-900 mb-4">Satıcılar İçin</h3>
+                        <p class="text-gray-800 text-lg leading-relaxed mb-6 font-semibold">
+                            Kaliteli ürünleri doğrudan üreticiden alarak hem daha ucuza satın alın hem de müşterilerinize uygun fiyat sunun.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-center text-blue-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">%30 Daha Ucuz Alım</span>
+                            </div>
+                            <div class="flex items-center justify-center text-blue-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Kalite Garantisi</span>
+                            </div>
+                            <div class="flex items-center justify-center text-blue-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Güvenli Tedarik</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="feature-card text-center p-10 rounded-3xl bg-white border-2 border-purple-200 card-hover group shadow-xl">
+                        <div class="feature-icon w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-8 shadow-xl">
+                            <i class="fas fa-heart text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-black text-gray-900 mb-4">Halk İçin</h3>
+                        <p class="text-gray-800 text-lg leading-relaxed mb-6 font-semibold">
+                            Daha kaliteli ürünleri daha uygun fiyatlarda bulun. Üretici ile tüketici arasındaki mesafe kısalsın.
+                        </p>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-center text-purple-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Uygun Fiyatlar</span>
+                            </div>
+                            <div class="flex items-center justify-center text-purple-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Taze Ürünler</span>
+                            </div>
+                            <div class="flex items-center justify-center text-purple-700">
+                                <i class="fas fa-check-circle mr-2 text-lg"></i>
+                                <span class="font-bold">Doğal Kalite</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Process Steps -->
+                <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-3xl p-12 text-white">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold mb-4">Nasıl Çalışır?</h3>
+                        <p class="text-green-100 text-lg">Basit 4 adımda başlayın</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-4 gap-8">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">1</span>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Başvuru Yapın</h4>
+                            <p class="text-green-100 text-sm">Çiftçi veya satıcı olarak platformumuza başvurun</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">2</span>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Onay Alın</h4>
+                            <p class="text-green-100 text-sm">Kalite kontrolümüzden geçerek onay alın</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">3</span>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Eşleşin</h4>
+                            <p class="text-green-100 text-sm">Uygun çiftçi veya satıcılarla eşleşin</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span class="text-2xl font-bold">4</span>
+                            </div>
+                            <h4 class="font-bold text-lg mb-2">Kazanın</h4>
+                            <p class="text-green-100 text-sm">Doğrudan alım-satımla daha fazla kazanın</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Testimonials Section -->
+        <section class="py-24 bg-white">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16">
+                    <span class="inline-block bg-green-600 text-white px-6 py-3 rounded-full text-sm font-bold mb-6 shadow-lg">
+                        💬 Müşteri Yorumları
+                    </span>
+                    <h2 class="text-4xl font-black text-gray-900 mb-4">Kullanıcılarımız Ne Diyor?</h2>
+                    <p class="text-xl text-gray-800 font-semibold">Binlerce memnun kullanıcımızdan bazı yorumlar</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="testimonial-card rounded-2xl p-8 card-hover">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Mehmet Özkan</h4>
+                                <p class="text-gray-600 text-sm">Çiftçi - Antalya</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 italic">"Mahsul sayesinde domateslerimi %45 daha yüksek fiyata satabiliyorum. Aracılar olmadan doğrudan satış yapmanın keyfini çıkarıyorum."</p>
+                    </div>
+                    
+                    <div class="testimonial-card rounded-2xl p-8 card-hover">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Ayşe Demir</h4>
+                                <p class="text-gray-600 text-sm">Market Sahibi - İstanbul</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 italic">"Kaliteli ürünleri çok daha uygun fiyatlara alabiliyorum. Müşterilerim de fark ediyor ve memnun kalıyor. Harika bir platform!"</p>
+                    </div>
+                    
+                    <div class="testimonial-card rounded-2xl p-8 card-hover">
+                        <div class="flex items-center mb-6">
+                            <div class="w-12 h-12 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center mr-4">
+                                <i class="fas fa-user text-white"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-bold text-gray-900">Ali Yılmaz</h4>
+                                <p class="text-gray-600 text-sm">Çiftçi - Bursa</p>
+                            </div>
+                        </div>
+                        <div class="flex mb-4">
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                            <i class="fas fa-star text-yellow-400"></i>
+                        </div>
+                        <p class="text-gray-700 italic">"Sebze üretiminde yıllardır aracılarla çalışıyordum. Mahsul ile tanıştıktan sonra gelirimin ne kadar arttığına inanamıyorum."</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="page-section">
+        <section class="py-24 bg-gradient-to-br from-green-50 to-white min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up">
+                    <span class="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        🌱 Hakkımızda
+                    </span>
+                    <h1 class="text-5xl font-bold text-gray-900 mb-6">Mahsul Hikayesi</h1>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Türkiye'nin tarım sektöründe devrim yaratmak için yola çıktık
+                    </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+                    <div class="slide-in-left">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-6">Misyonumuz</h2>
+                        <p class="text-lg text-gray-600 mb-6 leading-relaxed">
+                            Mahsul olarak, Türkiye'nin tarım sektöründe devrim yaratmayı hedefliyoruz. 
+                            Çiftçilerimizin emeklerinin karşılığını tam olarak alması, satıcılarımızın 
+                            kaliteli ürünlere uygun fiyatlarla ulaşması için çalışıyoruz.
+                        </p>
+                        <p class="text-lg text-gray-600 mb-8 leading-relaxed">
+                            Aracı komisyoncuları devre dışı bırakarak, üretici ile tüketici arasında 
+                            doğrudan köprü kuruyoruz. Bu sayede herkes kazanırken, sadece gereksiz 
+                            aracılar kaybediyor.
+                        </p>
+                        <div class="bg-gradient-to-r from-green-600 to-green-700 text-white p-8 rounded-2xl shadow-xl">
+                            <h3 class="text-2xl font-bold mb-3">Mottomuzu:</h3>
+                            <p class="text-xl font-semibold">"Doğrudan Bağlantı, Adil Kazanç"</p>
+                        </div>
+                    </div>
+                    
+                    <div class="slide-in-right">
+                        <div class="bg-white rounded-3xl shadow-2xl p-8">
+                            <h3 class="text-2xl font-bold text-gray-900 mb-8">Avantajlarımız</h3>
+                            <div class="space-y-6">
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg mb-2">Komisyonsuz İşlem</h4>
+                                        <p class="text-gray-600">Aracı komisyonları olmadan doğrudan alım-satım imkanı</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg mb-2">Kalite Kontrolü</h4>
+                                        <p class="text-gray-600">Tüm ürünler profesyonel kalite kontrolünden geçer</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg mb-2">Güvenli Ödeme</h4>
+                                        <p class="text-gray-600">256-bit SSL şifrelemeli güvenli ödeme sistemi</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start">
+                                    <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center mr-4 mt-1 flex-shrink-0">
+                                        <i class="fas fa-check text-white text-sm"></i>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-gray-900 text-lg mb-2">7/24 Destek</h4>
+                                        <p class="text-gray-600">Uzman ekibimiz her zaman yanınızda</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vision Section -->
+                <div class="bg-gradient-to-r from-green-600 to-green-700 rounded-3xl p-12 text-white mb-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-4xl font-bold mb-4">Vizyonumuz</h3>
+                        <p class="text-green-100 text-xl max-w-3xl mx-auto">
+                            2030 yılına kadar Türkiye'nin en büyük tarım platformu olmak ve 
+                            çiftçilerimizin yaşam kalitesini artırmak
+                        </p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-globe text-3xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Ulusal Kapsam</h4>
+                            <p class="text-green-100">Türkiye'nin her köşesindeki çiftçiye ulaşmak</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-leaf text-3xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">Sürdürülebilirlik</h4>
+                            <p class="text-green-100">Çevre dostu tarım uygulamalarını desteklemek</p>
+                        </div>
+                        <div class="text-center">
+                            <div class="w-20 h-20 bg-white/20 rounded-2xl flex items-center justify-center mx-auto mb-6">
+                                <i class="fas fa-rocket text-3xl"></i>
+                            </div>
+                            <h4 class="text-xl font-bold mb-3">İnovasyon</h4>
+                            <p class="text-green-100">Teknoloji ile tarımı geleceğe taşımak</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Team Section -->
+                <div class="text-center mb-16">
+                    <h3 class="text-4xl font-bold text-gray-900 mb-4">Ekibimiz</h3>
+                    <p class="text-xl text-gray-600">Deneyimli ve tutkulu ekibimizle hizmetinizdeyiz</p>
+                </div>
+                
+                <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8">
+                    <div class="text-center card-hover">
+                        <div class="w-32 h-32 bg-gradient-to-br from-green-600 to-green-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <i class="fas fa-user text-4xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Ahmet Yılmaz</h4>
+                        <p class="text-green-600 font-semibold mb-2">Kurucu & CEO</p>
+                        <p class="text-gray-600 text-sm">15 yıllık tarım sektörü deneyimi</p>
+                    </div>
+                    
+                    <div class="text-center card-hover">
+                        <div class="w-32 h-32 bg-gradient-to-br from-blue-600 to-blue-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <i class="fas fa-user text-4xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Fatma Özkan</h4>
+                        <p class="text-blue-600 font-semibold mb-2">CTO</p>
+                        <p class="text-gray-600 text-sm">Teknoloji ve yazılım uzmanı</p>
+                    </div>
+                    
+                    <div class="text-center card-hover">
+                        <div class="w-32 h-32 bg-gradient-to-br from-purple-600 to-purple-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <i class="fas fa-user text-4xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Mehmet Demir</h4>
+                        <p class="text-purple-600 font-semibold mb-2">Operasyon Müdürü</p>
+                        <p class="text-gray-600 text-sm">Lojistik ve operasyon uzmanı</p>
+                    </div>
+                    
+                    <div class="text-center card-hover">
+                        <div class="w-32 h-32 bg-gradient-to-br from-orange-600 to-orange-700 rounded-full flex items-center justify-center mx-auto mb-6 shadow-xl">
+                            <i class="fas fa-user text-4xl text-white"></i>
+                        </div>
+                        <h4 class="text-xl font-bold text-gray-900 mb-2">Ayşe Kaya</h4>
+                        <p class="text-orange-600 font-semibold mb-2">Pazarlama Müdürü</p>
+                        <p class="text-gray-600 text-sm">Dijital pazarlama uzmanı</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Farmer Application Page -->
+    <div id="farmer-application" class="page-section">
+        <section class="py-24 bg-gradient-to-br from-green-50 to-white min-h-screen">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fas fa-tractor text-3xl text-white"></i>
+                    </div>
+                    <h1 class="text-5xl font-bold text-gray-900 mb-6">Çiftçi Başvurusu</h1>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                        Ürününüzü doğrudan satıcılara satarak daha fazla kazanın. 
+                        Aracı komisyonları ödemeden gerçek değerini alın.
+                    </p>
+                </div>
+                
+                <!-- Benefits -->
+                <div class="grid md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-chart-line text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">%40 Daha Fazla Kazanç</h3>
+                        <p class="text-gray-600 text-sm">Aracı komisyonları olmadan</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-handshake text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Doğrudan Satış</h3>
+                        <p class="text-gray-600 text-sm">Satıcılarla direkt iletişim</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-clock text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Hızlı Ödeme</h3>
+                        <p class="text-gray-600 text-sm">24 saat içinde ödeme</p>
+                    </div>
+                </div>
+                
+                <!-- Application Form -->
+                <div class="form-glass rounded-3xl p-10 shadow-2xl">
+                    <form id="farmerApplicationForm" class="space-y-8">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <input type="text" id="farmerName" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="farmerName" class="text-gray-600 font-medium">Ad Soyad</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="tel" id="farmerPhone" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="farmerPhone" class="text-gray-600 font-medium">Telefon Numarası</label>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <input type="email" id="farmerEmail" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="farmerEmail" class="text-gray-600 font-medium">E-posta Adresi</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="text" id="farmerLocation" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="farmerLocation" class="text-gray-600 font-medium">Çiftlik Lokasyonu</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="farmerProducts" required placeholder=" " rows="4" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                            <label for="farmerProducts" class="text-gray-600 font-medium">Ürettiğiniz Ürünler (Detaylı açıklayın)</label>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <input type="number" id="farmerCapacity" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="farmerCapacity" class="text-gray-600 font-medium">Aylık Üretim Kapasitesi (kg)</label>
+                            </div>
+                            <div class="form-field">
+                                <select id="farmerExperience" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <option value="">Deneyim Sürenizi Seçin</option>
+                                    <option value="1-3">1-3 Yıl</option>
+                                    <option value="4-7">4-7 Yıl</option>
+                                    <option value="8-15">8-15 Yıl</option>
+                                    <option value="15+">15+ Yıl</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="farmerNotes" placeholder=" " rows="3" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                            <label for="farmerNotes" class="text-gray-600 font-medium">Ek Notlar (İsteğe bağlı)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="farmerTerms" required class="w-5 h-5 text-green-600 border-2 border-gray-300 rounded focus:ring-green-500">
+                            <label for="farmerTerms" class="ml-3 text-gray-700">
+                                <a href="#" class="text-green-600 hover:underline">Kullanım şartlarını</a> ve 
+                                <a href="#" class="text-green-600 hover:underline">gizlilik politikasını</a> kabul ediyorum.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full btn-premium text-white py-4 px-8 rounded-xl font-bold text-lg shadow-2xl">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            <span id="farmerSubmitText">Başvuruyu Gönder</span>
+                            <div id="farmerSpinner" class="loading-spinner hidden inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full ml-2"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Seller Application Page -->
+    <div id="seller-application" class="page-section">
+        <section class="py-24 bg-gradient-to-br from-blue-50 to-white min-h-screen">
+            <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
+                        <i class="fas fa-store text-3xl text-white"></i>
+                    </div>
+                    <h1 class="text-5xl font-bold text-gray-900 mb-6">Satıcı Başvurusu</h1>
+                    <p class="text-xl text-gray-600 max-w-2xl mx-auto">
+                        Kaliteli ürünleri doğrudan çiftçiden alarak hem daha ucuza satın alın 
+                        hem de müşterilerinize uygun fiyat sunun.
+                    </p>
+                </div>
+                
+                <!-- Benefits -->
+                <div class="grid md:grid-cols-3 gap-6 mb-12">
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-coins text-2xl text-blue-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">%30 Daha Ucuz Alım</h3>
+                        <p class="text-gray-600 text-sm">Aracı maliyetleri olmadan</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-green-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-leaf text-2xl text-green-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Kalite Garantisi</h3>
+                        <p class="text-gray-600 text-sm">Kontrollü ve taze ürünler</p>
+                    </div>
+                    <div class="bg-white rounded-2xl p-6 shadow-lg text-center card-hover">
+                        <div class="w-16 h-16 bg-purple-100 rounded-xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-truck text-2xl text-purple-600"></i>
+                        </div>
+                        <h3 class="font-bold text-gray-900 mb-2">Güvenli Tedarik</h3>
+                        <p class="text-gray-600 text-sm">Düzenli ve güvenilir teslimat</p>
+                    </div>
+                </div>
+                
+                <!-- Application Form -->
+                <div class="form-glass rounded-3xl p-10 shadow-2xl">
+                    <form id="sellerApplicationForm" class="space-y-8">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <input type="text" id="companyName" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="companyName" class="text-gray-600 font-medium">Şirket/Mağaza Adı</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="text" id="contactPerson" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="contactPerson" class="text-gray-600 font-medium">Yetkili Kişi</label>
+                            </div>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <input type="tel" id="sellerPhone" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="sellerPhone" class="text-gray-600 font-medium">Telefon Numarası</label>
+                            </div>
+                            <div class="form-field">
+                                <input type="email" id="sellerEmail" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="sellerEmail" class="text-gray-600 font-medium">E-posta Adresi</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="businessAddress" required placeholder=" " rows="3" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                            <label for="businessAddress" class="text-gray-600 font-medium">İş Adresi</label>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <select id="businessType" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <option value="">İşletme Türünü Seçin</option>
+                                    <option value="market">Market/Süpermarket</option>
+                                    <option value="restaurant">Restoran/Kafe</option>
+                                    <option value="wholesaler">Toptancı</option>
+                                    <option value="distributor">Distribütör</option>
+                                    <option value="other">Diğer</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <input type="number" id="sellerCapacity" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                <label for="sellerCapacity" class="text-gray-600 font-medium">Aylık Alım Kapasitesi (kg)</label>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="neededProducts" required placeholder=" " rows="4" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                            <label for="neededProducts" class="text-gray-600 font-medium">İhtiyaç Duyduğunuz Ürünler (Detaylı açıklayın)</label>
+                        </div>
+                        
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div class="form-field">
+                                <select id="businessExperience" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <option value="">İş Deneyiminizi Seçin</option>
+                                    <option value="1-2">1-2 Yıl</option>
+                                    <option value="3-5">3-5 Yıl</option>
+                                    <option value="6-10">6-10 Yıl</option>
+                                    <option value="10+">10+ Yıl</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <select id="preferredRegion" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <option value="">Tercih Ettiğiniz Bölge</option>
+                                    <option value="marmara">Marmara Bölgesi</option>
+                                    <option value="ege">Ege Bölgesi</option>
+                                    <option value="akdeniz">Akdeniz Bölgesi</option>
+                                    <option value="ic-anadolu">İç Anadolu Bölgesi</option>
+                                    <option value="karadeniz">Karadeniz Bölgesi</option>
+                                    <option value="dogu-anadolu">Doğu Anadolu Bölgesi</option>
+                                    <option value="guneydogu">Güneydoğu Anadolu Bölgesi</option>
+                                    <option value="all">Tüm Bölgeler</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-field">
+                            <textarea id="sellerNotes" placeholder=" " rows="3" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                            <label for="sellerNotes" class="text-gray-600 font-medium">Ek Notlar (İsteğe bağlı)</label>
+                        </div>
+                        
+                        <div class="flex items-center">
+                            <input type="checkbox" id="sellerTerms" required class="w-5 h-5 text-blue-600 border-2 border-gray-300 rounded focus:ring-blue-500">
+                            <label for="sellerTerms" class="ml-3 text-gray-700">
+                                <a href="#" class="text-blue-600 hover:underline">Kullanım şartlarını</a> ve 
+                                <a href="#" class="text-blue-600 hover:underline">gizlilik politikasını</a> kabul ediyorum.
+                            </label>
+                        </div>
+                        
+                        <button type="submit" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white py-4 px-8 rounded-xl font-bold text-lg shadow-2xl hover:from-blue-700 hover:to-blue-800 transition-all duration-300">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            <span id="sellerSubmitText">Başvuruyu Gönder</span>
+                            <div id="sellerSpinner" class="loading-spinner hidden inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full ml-2"></div>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="page-section">
+        <section class="py-24 bg-gradient-to-br from-gray-50 to-white min-h-screen">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center mb-16 fade-in-up">
+                    <span class="inline-block bg-green-100 text-green-600 px-4 py-2 rounded-full text-sm font-semibold mb-4">
+                        📞 İletişim
+                    </span>
+                    <h1 class="text-5xl font-bold text-gray-900 mb-6">Bizimle İletişime Geçin</h1>
+                    <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+                        Sorularınız, önerileriniz veya destek talepleriniz için 7/24 hizmetinizdeyiz
+                    </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                    <div class="text-center p-8 bg-white rounded-3xl shadow-xl card-hover">
+                        <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-envelope text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">E-posta</h3>
+                        <p class="text-gray-600 mb-4">7/24 e-posta desteği</p>
+                        <a href="mailto:info@mahsul.com" class="text-green-600 font-semibold hover:underline text-lg">info@mahsul.com</a>
+                        <br>
+                        <a href="mailto:destek@mahsul.com" class="text-green-600 font-semibold hover:underline">destek@mahsul.com</a>
+                    </div>
+                    
+                    <div class="text-center p-8 bg-white rounded-3xl shadow-xl card-hover">
+                        <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-phone text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Telefon</h3>
+                        <p class="text-gray-600 mb-4">Anlık destek hattı</p>
+                        <a href="tel:+905536366983" class="text-blue-600 font-semibold hover:underline text-lg">0553 636 69 83</a>
+                        <br>
+                        <span class="text-gray-500 text-sm">Pazartesi - Pazar: 08:00 - 22:00</span>
+                    </div>
+                    
+                    <div class="text-center p-8 bg-white rounded-3xl shadow-xl card-hover">
+                        <div class="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg">
+                            <i class="fas fa-map-marker-alt text-3xl text-white"></i>
+                        </div>
+                        <h3 class="text-2xl font-bold text-gray-900 mb-3">Adres</h3>
+                        <p class="text-gray-600 mb-4">Merkez ofisimiz</p>
+                        <p class="text-purple-600 font-semibold">Maslak Mahallesi<br>Büyükdere Caddesi No:123<br>Sarıyer, İstanbul</p>
+                    </div>
+                </div>
+                
+                <!-- Contact Form -->
+                <div class="max-w-4xl mx-auto">
+                    <div class="form-glass rounded-3xl p-10 shadow-2xl">
+                        <div class="text-center mb-8">
+                            <h3 class="text-3xl font-bold text-gray-900 mb-4">Mesaj Gönderin</h3>
+                            <p class="text-gray-600">Formu doldurun, en kısa sürede size dönüş yapalım</p>
+                        </div>
+                        
+                        <form id="contactForm" class="space-y-8">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="form-field">
+                                    <input type="text" id="contactName" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <label for="contactName" class="text-gray-600 font-medium">Ad Soyad</label>
+                                </div>
+                                <div class="form-field">
+                                    <input type="email" id="contactEmail" required placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <label for="contactEmail" class="text-gray-600 font-medium">E-posta Adresi</label>
+                                </div>
+                            </div>
+                            
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div class="form-field">
+                                    <input type="tel" id="contactPhone" placeholder=" " class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                    <label for="contactPhone" class="text-gray-600 font-medium">Telefon (İsteğe bağlı)</label>
+                                </div>
+                                <div class="form-field">
+                                    <select id="contactSubject" required class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg">
+                                        <option value="">Konu Seçin</option>
+                                        <option value="general">Genel Bilgi</option>
+                                        <option value="support">Teknik Destek</option>
+                                        <option value="partnership">İş Ortaklığı</option>
+                                        <option value="complaint">Şikayet</option>
+                                        <option value="suggestion">Öneri</option>
+                                        <option value="other">Diğer</option>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-field">
+                                <textarea id="contactMessage" required placeholder=" " rows="6" class="w-full px-4 py-4 border-2 border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent transition-all duration-300 text-lg resize-none"></textarea>
+                                <label for="contactMessage" class="text-gray-600 font-medium">Mesajınız</label>
+                            </div>
+                            
+                            <button type="submit" class="w-full btn-premium text-white py-4 px-8 rounded-xl font-bold text-lg shadow-2xl">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                <span id="contactSubmitText">Mesajı Gönder</span>
+                                <div id="contactSpinner" class="loading-spinner hidden inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full ml-2"></div>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                
+                <!-- FAQ Section -->
+                <div class="mt-20">
+                    <div class="text-center mb-12">
+                        <h3 class="text-3xl font-bold text-gray-900 mb-4">Sık Sorulan Sorular</h3>
+                        <p class="text-gray-600">En çok merak edilen sorular ve cevapları</p>
+                    </div>
+                    
+                    <div class="max-w-4xl mx-auto space-y-4">
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <button onclick="toggleFAQ(1)" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-gray-900 text-lg">Mahsul platformu nasıl çalışır?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transform transition-transform" id="faq-icon-1"></i>
+                            </button>
+                            <div id="faq-content-1" class="hidden px-8 pb-6">
+                                <p class="text-gray-600 leading-relaxed">Mahsul, çiftçiler ve satıcıları doğrudan buluşturan bir platformdur. Çiftçiler ürünlerini platforma kaydeder, satıcılar ihtiyaçlarını belirtir ve sistem otomatik olarak uygun eşleşmeleri yapar. Aracı komisyonları olmadan doğrudan alım-satım gerçekleşir.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <button onclick="toggleFAQ(2)" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-gray-900 text-lg">Başvuru süreci ne kadar sürer?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transform transition-transform" id="faq-icon-2"></i>
+                            </button>
+                            <div id="faq-content-2" class="hidden px-8 pb-6">
+                                <p class="text-gray-600 leading-relaxed">Başvurunuz gönderildikten sonra 24-48 saat içinde değerlendirme süreci tamamlanır. Onay aldıktan sonra hemen platform üzerinden işlem yapmaya başlayabilirsiniz.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <button onclick="toggleFAQ(3)" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-gray-900 text-lg">Ödeme güvenliği nasıl sağlanır?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transform transition-transform" id="faq-icon-3"></i>
+                            </button>
+                            <div id="faq-content-3" class="hidden px-8 pb-6">
+                                <p class="text-gray-600 leading-relaxed">Tüm ödemeler 256-bit SSL şifrelemeli güvenli sistemimiz üzerinden gerçekleşir. Ürün teslim edildikten sonra ödeme çiftçiye aktarılır. Herhangi bir sorun durumunda para iade garantimiz vardır.</p>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-2xl shadow-lg overflow-hidden">
+                            <button onclick="toggleFAQ(4)" class="w-full px-8 py-6 text-left flex justify-between items-center hover:bg-gray-50 transition-colors">
+                                <span class="font-semibold text-gray-900 text-lg">Kalite kontrolü nasıl yapılır?</span>
+                                <i class="fas fa-chevron-down text-gray-400 transform transition-transform" id="faq-icon-4"></i>
+                            </button>
+                            <div id="faq-content-4" class="hidden px-8 pb-6">
+                                <p class="text-gray-600 leading-relaxed">Uzman ekibimiz tüm çiftçileri ve ürünlerini yerinde kontrol eder. Organik sertifikaları, kalite standartları ve üretim koşulları detaylı olarak incelenir. Sadece standartlarımızı karşılayan çiftçiler platforma kabul edilir.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Success Modal -->
+    <div id="successModal" class="fixed inset-0 modal-backdrop hidden items-center justify-center z-50">
+        <div class="bg-white rounded-3xl p-8 max-w-md mx-4 shadow-2xl transform scale-95 transition-all duration-300">
+            <div class="text-center">
+                <div class="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <div class="success-checkmark w-8 h-8 border-2 border-green-600 rounded-full relative">
+                        <div class="absolute top-2 left-3 w-2 h-4 border-r-2 border-b-2 border-green-600 transform rotate-45"></div>
+                    </div>
+                </div>
+                <h3 class="text-2xl font-bold text-gray-900 mb-4">Başvurunuz Alındı!</h3>
+                <p class="text-gray-600 mb-6">Başvurunuz başarıyla gönderildi. 24-48 saat içinde size dönüş yapacağız.</p>
+                <button onclick="closeModal()" class="btn-premium text-white px-8 py-3 rounded-xl font-semibold">
+                    Tamam
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification -->
+    <div id="notification" class="notification fixed top-4 right-4 bg-green-600 text-white px-6 py-4 rounded-xl shadow-lg z-50">
+        <div class="flex items-center">
+            <i class="fas fa-check-circle mr-3"></i>
+            <span id="notificationText">İşlem başarılı!</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-16">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-4 md:grid-cols-2 gap-8 mb-12">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-12 h-12 bg-gradient-to-br from-green-600 to-green-700 rounded-xl flex items-center justify-center mr-4">
+                            <i class="fas fa-seedling text-white text-xl"></i>
+                        </div>
+                        <div>
+                            <span class="text-2xl font-bold">Mahsul</span>
+                            <p class="text-xs text-gray-400 -mt-1">Premium Platform</p>
+                        </div>
+                    </div>
+                    <p class="text-gray-300 mb-6 leading-relaxed">
+                        Çiftçi ve satıcıları doğrudan buluşturan Türkiye'nin en yenilikçi tarım platformu.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="w-10 h-10 bg-gray-800 rounded-lg flex items-center justify-center hover:bg-green-600 transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Hızlı Linkler</h4>
+                    <ul class="space-y-3">
+                        <li><button onclick="showPage('home')" class="text-gray-300 hover:text-green-400 transition-colors">Ana Sayfa</button></li>
+                        <li><button onclick="showPage('about')" class="text-gray-300 hover:text-green-400 transition-colors">Hakkımızda</button></li>
+                        <li><button onclick="showPage('farmer-application')" class="text-gray-300 hover:text-green-400 transition-colors">Çiftçi Başvuru</button></li>
+                        <li><button onclick="showPage('seller-application')" class="text-gray-300 hover:text-green-400 transition-colors">Satıcı Başvuru</button></li>
+                        <li><button onclick="showPage('contact')" class="text-gray-300 hover:text-green-400 transition-colors">İletişim</button></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">Destek</h4>
+                    <ul class="space-y-3">
+                        <li><a href="https://wa.me/905536366983" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-green-400 transition-colors">WhatsApp Destek</a></li>
+                        <li><a href="mailto:destek@mahsul.com" class="text-gray-300 hover:text-green-400 transition-colors">E-posta Desteği</a></li>
+                        <li><a href="tel:+905536366983" class="text-gray-300 hover:text-green-400 transition-colors">Telefon Desteği</a></li>
+                        <li><button onclick="showPage('contact')" class="text-gray-300 hover:text-green-400 transition-colors">İletişim Formu</button></li>
+                        <li><a href="#" class="text-gray-300 hover:text-green-400 transition-colors">Canlı Sohbet</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-lg font-bold mb-6">İletişim</h4>
+                    <div class="space-y-4">
+                        <div class="flex items-start">
+                            <i class="fas fa-map-marker-alt text-green-400 mr-3 mt-1"></i>
+                            <div>
+                                <p class="text-gray-300">Maslak Mahallesi</p>
+                                <p class="text-gray-300">Büyükdere Caddesi No:123</p>
+                                <p class="text-gray-300">Sarıyer, İstanbul</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-green-400 mr-3"></i>
+                            <a href="tel:+905536366983" class="text-gray-300 hover:text-green-400 transition-colors">0553 636 69 83</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-green-400 mr-3"></i>
+                            <a href="mailto:info@mahsul.com" class="text-gray-300 hover:text-green-400 transition-colors">info@mahsul.com</a>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fab fa-whatsapp text-green-400 mr-3"></i>
+                            <a href="https://wa.me/905536366983" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-green-400 transition-colors">WhatsApp</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <p class="text-gray-400 text-sm mb-4 md:mb-0">
+                        © 2024 Mahsul. Tüm hakları saklıdır.
+                    </p>
+                    <div class="flex space-x-6 text-sm">
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">Gizlilik Politikası</a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">Kullanım Şartları</a>
+                        <a href="#" class="text-gray-400 hover:text-green-400 transition-colors">Çerez Politikası</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Page Navigation
+        function showPage(pageId) {
+            // Hide all pages
+            const pages = document.querySelectorAll('.page-section');
+            pages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show selected page
+            document.getElementById(pageId).classList.add('active');
+            
+            // Update navigation buttons
+            const navButtons = document.querySelectorAll('.desktop-nav-btn');
+            navButtons.forEach(btn => {
+                btn.classList.remove('active');
+            });
+            
+            // Add active class to current button
+            const currentBtn = document.getElementById(`nav-${pageId}`) || document.getElementById(`mobile-nav-${pageId}`);
+            if (currentBtn) {
+                currentBtn.classList.add('active');
+            }
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            
+            // Update scroll indicator
+            updateScrollIndicator();
+        }
+
+        // FAQ Toggle
+        function toggleFAQ(id) {
+            const content = document.getElementById(`faq-content-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            
+            if (content.classList.contains('hidden')) {
+                content.classList.remove('hidden');
+                icon.style.transform = 'rotate(180deg)';
+            } else {
+                content.classList.add('hidden');
+                icon.style.transform = 'rotate(0deg)';
+            }
+        }
+
+        // Form Submissions
+        document.getElementById('farmerApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('farmerSubmitText');
+            const spinner = document.getElementById('farmerSpinner');
+            
+            // Show loading state
+            submitBtn.textContent = 'Gönderiliyor...';
+            spinner.classList.remove('hidden');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showSuccessModal();
+                this.reset();
+                submitBtn.textContent = 'Başvuruyu Gönder';
+                spinner.classList.add('hidden');
+            }, 2000);
+        });
+
+        document.getElementById('sellerApplicationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('sellerSubmitText');
+            const spinner = document.getElementById('sellerSpinner');
+            
+            // Show loading state
+            submitBtn.textContent = 'Gönderiliyor...';
+            spinner.classList.remove('hidden');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showSuccessModal();
+                this.reset();
+                submitBtn.textContent = 'Başvuruyu Gönder';
+                spinner.classList.add('hidden');
+            }, 2000);
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('contactSubmitText');
+            const spinner = document.getElementById('contactSpinner');
+            
+            // Show loading state
+            submitBtn.textContent = 'Gönderiliyor...';
+            spinner.classList.remove('hidden');
+            
+            // Simulate form submission
+            setTimeout(() => {
+                showNotification('Mesajınız başarıyla gönderildi!');
+                this.reset();
+                submitBtn.textContent = 'Mesajı Gönder';
+                spinner.classList.add('hidden');
+            }, 2000);
+        });
+
+        // Modal Functions
+        function showSuccessModal() {
+            const modal = document.getElementById('successModal');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modal.querySelector('.bg-white').classList.remove('scale-95');
+                modal.querySelector('.bg-white').classList.add('scale-100');
+            }, 10);
+        }
+
+        function closeModal() {
+            const modal = document.getElementById('successModal');
+            modal.querySelector('.bg-white').classList.remove('scale-100');
+            modal.querySelector('.bg-white').classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+            }, 300);
+        }
+
+        // Notification Function
+        function showNotification(message) {
+            const notification = document.getElementById('notification');
+            const notificationText = document.getElementById('notificationText');
+            
+            notificationText.textContent = message;
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 3000);
+        }
+
+        // Stats Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stats-counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const increment = target / 100;
+                let current = 0;
+                
+                const updateCounter = () => {
+                    if (current < target) {
+                        current += increment;
+                        counter.textContent = Math.floor(current);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                updateCounter();
+            });
+        }
+
+        // Scroll Indicator
+        function updateScrollIndicator() {
+            const scrollIndicator = document.getElementById('scrollIndicator');
+            const scrollTop = window.pageYOffset;
+            const docHeight = document.body.scrollHeight - window.innerHeight;
+            const scrollPercent = (scrollTop / docHeight) * 100;
+            
+            scrollIndicator.style.width = scrollPercent + '%';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            // Animate counters when page loads
+            setTimeout(animateCounters, 1000);
+            
+            // Update scroll indicator on scroll
+            window.addEventListener('scroll', updateScrollIndicator);
+            
+            // Close modal when clicking outside
+            document.getElementById('successModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987021b4a33ba895',t:'MTc1OTE5NzY3OS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
